@@ -20,12 +20,14 @@ import imutils
 import time
 import dlib
 import cv2
+import json
+
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-p", "--prototxt", required=True,
+ap.add_argument("-p", "--prototxt", default='mobilenet_ssd/MobileNetSSD_deploy.prototxt',
 	help="path to Caffe 'deploy' prototxt file")
-ap.add_argument("-m", "--model", required=True,
+ap.add_argument("-m", "--model", default = 'mobilenet_ssd/MobileNetSSD_deploy.caffemodel',
 	help="path to Caffe pre-trained model")
 ap.add_argument("-i", "--input", type=str,
 	help="path to optional input video file")
@@ -244,6 +246,7 @@ while True:
 
 	# construct a tuple of information we will be displaying on the
 	# frame
+
 	info = [
 		("People Count", totalDown),
 	]
@@ -273,8 +276,17 @@ while True:
 
 # stop the timer and display FPS information
 fps.stop()
-print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
-print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
+# print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
+# print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
+
+totalPeople = {'totalCount': totalDown}
+
+def retjson():
+	python2json = json.dumps(totalPeople)
+	print(python2json)
+	with open('peopleCount.json', 'w') as f:
+		json.dump()
+retjson()
 
 # check to see if we need to release the video writer pointer
 if writer is not None:
