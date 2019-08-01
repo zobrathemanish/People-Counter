@@ -15,6 +15,7 @@
 # 3. Navigate the browser to the local webpage.
 from flask import Flask, render_template, Response
 # import people_counter
+import fetcher
 
 app = Flask(__name__)
 
@@ -22,6 +23,10 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+@app.route('/video_feed')
+def video_feed():
+	fetcher.run_fetch()
+    
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
